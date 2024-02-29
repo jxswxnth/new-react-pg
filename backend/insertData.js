@@ -33,15 +33,11 @@ const getData = async () => {
     const data = await client.query(
       `select * from customer`
     );
-    console.log(data.rows, "data rows")
 
-    console.log('fetch data');
     client.release();
-    process.exit(0);
     return data.rows;
   } catch (error) {
     console.error('Error inserting data:', error);
-    process.exit(1);
   }
 };
 

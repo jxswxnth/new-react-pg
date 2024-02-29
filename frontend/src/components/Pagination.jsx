@@ -1,3 +1,5 @@
+// Pagination.jsx
+
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
@@ -15,7 +17,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       <Button
         variant="primary"
         onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
+        disabled={currentPage === totalPages || totalPages === 0}
       >
         Next
       </Button>

@@ -8,10 +8,9 @@ app.use(express.raw({ type: '*/*', limit: '10mb' }));
 app.use(cors());
 const PORT = 3001;
 
-app.get('/', (req, res) => {
-    const result = getData();
-    console.log(result, "nitya");
-    res.json({ result: result });
+app.get('/', async (req, res) => {
+    const result = await getData();
+    res.send({ result });
 });
 
 
