@@ -1,5 +1,3 @@
-// App.jsx
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Table from './components/Table';
@@ -7,6 +5,7 @@ import Pagination from './components/Pagination';
 import SearchBar from './components/SearchBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import _ from 'lodash';
+import Options from './components/Options';
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -23,6 +22,7 @@ const App = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get('http://localhost:3001/');
+      console.log(response.data.result);
       setData(response.data.result);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -32,8 +32,8 @@ const App = () => {
   const filteredData = () => {
     return data.filter(
       (item) =>
-        item.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.location.toLowerCase().includes(searchTerm.toLowerCase())
+        item?.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item?.location.toLowerCase().includes(searchTerm.toLowerCase())
     );
   };
 
@@ -57,6 +57,11 @@ const App = () => {
     }
   };
 
+  const optionSort = (field, order) => {
+    setSortField(field);
+    setSortOrder(order);
+  };
+
   const sortedData = () => {
     if (sortField) {
       return _.orderBy(filteredData(), [sortField], [sortOrder]);
@@ -77,7 +82,10 @@ const App = () => {
   return (
     <div className="App">
       <h1>Customer Data</h1>
-      <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+        <Options optionSort={optionSort} />
+      </div>
       <Table data={paginatedData()} onSort={handleSort} />
       <Pagination
         currentPage={currentPage}
